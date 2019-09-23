@@ -1,0 +1,92 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+    <div class="container-fluid">
+        <a href="/dashboard" class="navbar-brand mr-3">Calculator</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ml-auto">
+                <span *ngIf="true" class="nav-item nav-link">Welcome to big number calculator!</span>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <p-toast position="top-right"></p-toast>
+    
+    <form [formGroup]="userform" (ngSubmit)="saveResult(userform.value)">
+        <p-panel header="Summation">
+          <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <div class="form-group">
+              <label for="firstNumber">First Number</label>
+              <input type="number" id="firstNumber" name="firstNumber" formControlName="firstNumber" class="form-control"
+                placeholder="First number" required />
+              <p-message severity="error" text="Proper First Number is required"
+                *ngIf="!userform.controls['firstNumber'].valid&&userform.controls['firstNumber'].dirty">
+              </p-message>
+            </div>
+      
+            <div class="form-group">
+              <label for="secondNumber">Second Number</label>
+              <input type="number" id="secondNumber" name="secondNumber" formControlName="secondNumber" class="form-control"
+                placeholder="Second number" required />
+              <p-message severity="error" text="Proper Second Number is required"
+                *ngIf="!userform.controls['secondNumber'].valid&&userform.controls['secondNumber'].dirty">
+              </p-message>
+            </div>
+
+            <div class="form-group">
+                <label for="userName">Username</label>
+                <input type="text" id="userName" name="userName" formControlName="userName" class="form-control"
+                  placeholder="Username" maxlength="450" />
+                <p-message severity="error" text="Username should be at least 4 character long"
+                  *ngIf="!userform.controls['userName'].valid&&userform.controls['userName'].dirty">
+                </p-message>
+              </div>
+
+            <div>
+              <button type="submit" [disabled]="!userform.valid" class="btn btn-primary btn-success">Save</button>
+              <button type="button" class="btn btn-primary" style="margin-left: 10px;"
+                (click)="userform.reset()">Clear</button>
+            </div>
+          </div>
+        </p-panel>
+    </form>
+    <br />
+
+    <p-panel header="Result List">
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <p-table [columns]="cols" [value]="summationResult">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                            {{col.header}}
+                            <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            {{rowData[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </p-panel>
+
+    <br />
+    <footer>
+        <div class="row">
+            <div class="col-md-6">
+                <p>Copyright &copy; 2019 Towhidul Bashar</p>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <a href="#" class="text-dark">Terms of Use</a>
+                <span class="text-muted mx-2">|</span>
+                <a href="#" class="text-dark">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+</div>
